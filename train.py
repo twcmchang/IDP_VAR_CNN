@@ -7,7 +7,7 @@ import tensorflow as tf
 from progress.bar import Bar
 from ipywidgets import IntProgress
 from IPython.display import display
-from vgg16 import VGG16
+from vgg16_variational_dp import VGG16
 from utils import CIFAR10, CIFAR100
 
 def main():
