@@ -43,21 +43,21 @@ def train(FLAG):
     # dp = [(i+1)*0.05 for i in range(1,20)]
 
     dp ={
-        'conv1_1':100,
-        'conv1_2':100,
-        'conv2_1':100,
-        'conv2_2':100,
-        'conv3_1':100,
-        'conv3_2':50,
-        'conv3_3':25,
-        'conv4_1':10,
-        'conv4_2':10,
-        'conv4_3':10,
-        'conv5_1':5,
-        'conv5_2':5,
-        'conv5_3':5
+        'conv1_1':1.00,
+        'conv1_2':1.00,
+        'conv2_1':1.00,
+        'conv2_2':1.00,
+        'conv3_1':1.00,
+        'conv3_2':0.50,
+        'conv3_3':0.25,
+        'conv4_1':0.10,
+        'conv4_2':0.10,
+        'conv4_3':0.10,
+        'conv5_1':0.05,
+        'conv5_2':0.05,
+        'conv5_3':0.05
     }
-    vgg16.build(dp=dp)
+    vgg16.build(dp=dp, block_variational=True)
 
     # define tasks
     tasks = ['var_dp']
