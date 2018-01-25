@@ -91,8 +91,9 @@ def train(FLAG):
         min_delta = 0.0001
 
         # optimizer
-        opt = tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9)
-
+        # opt = tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9)
+        opt = tf.train.AdamOptimizer(learning_rate=learning_rate)
+        
         # recorder
         epoch_counter = 0
 
@@ -191,11 +192,16 @@ def train(FLAG):
         saver.save(sess, checkpoint_path, global_step=epoch_counter)
 
         para_dict = sess.run(vgg16.para_dict)
+        C = None
         for k, v in dp.items():
-            H, W, C, O = para_dict[k+"_W"].shape
-            para_dict[k+"_W"] = para_dict[k+"_W"][:,:,:,:int(O*v)]
+            if C is None:
+                H, W, C, O = para_dict[k+"_W"].shape
+            else:
+                H, W, _, O = para_dict[k+"_W"].shape
+            para_dict[k+"_W"] = para_dict[k+"_W"][:,:,:C,:int(O*v)]
             print("%s_W from (%s,%s,%s,%s) to %s" % (k,H,W,C,O,para_dict[k+"_W"].shape))
-            
+            C = int(O*v)
+
         np.save(os.path.join(FLAG.save_dir, "para_dict.npy"), para_dict)
         writer.close()
 
