@@ -152,8 +152,8 @@ class VGG16:
                 self.loss_dict["var_dp"] = loss
                 self.accu_dict["var_dp"] = accuracy
                 
-                tf.summary.scalar(name="accu_var_dp"), tensor=accuracy)
-                tf.summary.scalar(name="loss_var_dp"), tensor=loss)
+                tf.summary.scalar(name="accu_var_dp", tensor=accuracy)
+                tf.summary.scalar(name="loss_var_dp", tensor=loss)
         else:
             if type(dp) != list:
                 raise ValueError("when block_variational is False, dp must be a list.")
