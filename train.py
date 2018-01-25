@@ -198,8 +198,10 @@ def train(FLAG):
                 H, W, C, O = para_dict[k+"_W"].shape
             else:
                 H, W, _, O = para_dict[k+"_W"].shape
-            para_dict[k+"_W"] = para_dict[k+"_W"][:,:,:C,:int(O*v)]
-            print("%s_W from (%s,%s,%s,%s) to %s" % (k,H,W,C,O,para_dict[k+"_W"].shape))
+            para_dict[k+"_W"] = para_dict[k+"_W"][:, :, :C, :int(O*v)]
+            para_dict[k+"_gamma"] = para_dict[k+"_gamma"][:, :int(O*v)]
+            print("%s_W from (%s,%s,%s,%s) to %s" % (k, H, W, C, O, para_dict[k+"_W"].shape))
+            print("%s_gamma to %s" % (k, para_dict[k+"_gamma"].shape))
             C = int(O*v)
 
         np.save(os.path.join(FLAG.save_dir, "para_dict.npy"), para_dict)
