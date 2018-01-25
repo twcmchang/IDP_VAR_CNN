@@ -34,6 +34,9 @@ class VGG16:
         self.loss_dict = {}
         self.accu_dict = {}
 
+        # parameter dictionary
+        self.para_dict = {}
+
     def build(self, dp, block_variational=False):
         """
         load variable from npy to build the VGG
@@ -64,51 +67,97 @@ class VGG16:
         with tf.variable_scope("VGG16"):
             
             # transfer Convolutional filters trained on ImageNet to our model
-            (self.conv1_1_W, gamma), self.conv1_1_b = self.get_conv_filter("conv1_1"), self.get_bias("conv1_1")
+            # (self.conv1_1_W, gamma), self.conv1_1_b = self.get_conv_filter("conv1_1"), self.get_bias("conv1_1")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv1_2_W, gamma), self.conv1_2_b = self.get_conv_filter("conv1_2"), self.get_bias("conv1_2")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv2_1_W, gamma), self.conv2_1_b = self.get_conv_filter("conv2_1"), self.get_bias("conv2_1")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv2_2_W, gamma), self.conv2_2_b = self.get_conv_filter("conv2_2"), self.get_bias("conv2_2")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv3_1_W, gamma), self.conv3_1_b = self.get_conv_filter("conv3_1"), self.get_bias("conv3_1")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv3_2_W, gamma), self.conv3_2_b = self.get_conv_filter("conv3_2"), self.get_bias("conv3_2")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv3_3_W, gamma), self.conv3_3_b = self.get_conv_filter("conv3_3"), self.get_bias("conv3_3")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv4_1_W, gamma), self.conv4_1_b = self.get_conv_filter("conv4_1"), self.get_bias("conv4_1")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv4_2_W, gamma), self.conv4_2_b = self.get_conv_filter("conv4_2"), self.get_bias("conv4_2")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv4_3_W, gamma), self.conv4_3_b = self.get_conv_filter("conv4_3"), self.get_bias("conv4_3")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv5_1_W, gamma), self.conv5_1_b = self.get_conv_filter("conv5_1"), self.get_bias("conv5_1")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv5_2_W, gamma), self.conv5_2_b = self.get_conv_filter("conv5_2"), self.get_bias("conv5_2")
+            # self.gamma_var.append(gamma)
+
+            # (self.conv5_3_W, gamma), self.conv5_3_b = self.get_conv_filter("conv5_3"), self.get_bias("conv5_3")
+            # self.gamma_var.append(gamma)
+
+            # # user specified fully connected layers
+            # self.fc_1_W = tf.get_variable(name="fc_1_W", shape=(512, 512), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
+            # self.fc_1_b = tf.get_variable(name="fc_1_b", shape=(512,), initializer=tf.ones_initializer(), dtype=tf.float32)
+
+            # self.fc_2_W = tf.get_variable(name="fc_2_W", shape=(512, 10), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
+            # self.fc_2_b = tf.get_variable(name="fc_2_b", shape=(10,), initializer=tf.ones_initializer(), dtype=tf.float32)
+
+            (self.para_dict["conv1_1_W"], gamma), self.para_dict["conv1_1_b"] = self.get_conv_filter("conv1_1"), self.get_bias("conv1_1")
             self.gamma_var.append(gamma)
 
-            (self.conv1_2_W, gamma), self.conv1_2_b = self.get_conv_filter("conv1_2"), self.get_bias("conv1_2")
+            (self.para_dict["conv1_2_W"], gamma), self.para_dict["conv1_2_b"]  = self.get_conv_filter("conv1_2"), self.get_bias("conv1_2")
             self.gamma_var.append(gamma)
 
-            (self.conv2_1_W, gamma), self.conv2_1_b = self.get_conv_filter("conv2_1"), self.get_bias("conv2_1")
+            (self.para_dict["conv2_1_W"], gamma), self.para_dict["conv2_1_b"]  = self.get_conv_filter("conv2_1"), self.get_bias("conv2_1")
             self.gamma_var.append(gamma)
 
-            (self.conv2_2_W, gamma), self.conv2_2_b = self.get_conv_filter("conv2_2"), self.get_bias("conv2_2")
+            (self.para_dict["conv2_2_W"], gamma), self.para_dict["conv2_2_b"]  = self.get_conv_filter("conv2_2"), self.get_bias("conv2_2")
             self.gamma_var.append(gamma)
 
-            (self.conv3_1_W, gamma), self.conv3_1_b = self.get_conv_filter("conv3_1"), self.get_bias("conv3_1")
+            (self.para_dict["conv3_1_W"], gamma), self.para_dict["conv3_1_b"]  = self.get_conv_filter("conv3_1"), self.get_bias("conv3_1")
             self.gamma_var.append(gamma)
 
-            (self.conv3_2_W, gamma), self.conv3_2_b = self.get_conv_filter("conv3_2"), self.get_bias("conv3_2")
+            (self.para_dict["conv3_2_W"], gamma), self.para_dict["conv3_2_b"]  = self.get_conv_filter("conv3_2"), self.get_bias("conv3_2")
             self.gamma_var.append(gamma)
 
-            (self.conv3_3_W, gamma), self.conv3_3_b = self.get_conv_filter("conv3_3"), self.get_bias("conv3_3")
+            (self.para_dict["conv3_3_W"], gamma), self.para_dict["conv3_3_b"]  = self.get_conv_filter("conv3_3"), self.get_bias("conv3_3")
             self.gamma_var.append(gamma)
 
-            (self.conv4_1_W, gamma), self.conv4_1_b = self.get_conv_filter("conv4_1"), self.get_bias("conv4_1")
+            (self.para_dict["conv4_1_W"], gamma), self.para_dict["conv4_1_b"]  = self.get_conv_filter("conv4_1"), self.get_bias("conv4_1")
             self.gamma_var.append(gamma)
 
-            (self.conv4_2_W, gamma), self.conv4_2_b = self.get_conv_filter("conv4_2"), self.get_bias("conv4_2")
+            (self.para_dict["conv4_2_W"], gamma), self.para_dict["conv4_2_b"]  = self.get_conv_filter("conv4_2"), self.get_bias("conv4_2")
             self.gamma_var.append(gamma)
 
-            (self.conv4_3_W, gamma), self.conv4_3_b = self.get_conv_filter("conv4_3"), self.get_bias("conv4_3")
+            (self.para_dict["conv4_3_W"], gamma), self.para_dict["conv4_3_b"]  = self.get_conv_filter("conv4_3"), self.get_bias("conv4_3")
             self.gamma_var.append(gamma)
 
-            (self.conv5_1_W, gamma), self.conv5_1_b = self.get_conv_filter("conv5_1"), self.get_bias("conv5_1")
+            (self.para_dict["conv5_1_W"], gamma), self.para_dict["conv5_1_b"]  = self.get_conv_filter("conv5_1"), self.get_bias("conv5_1")
             self.gamma_var.append(gamma)
 
-            (self.conv5_2_W, gamma), self.conv5_2_b = self.get_conv_filter("conv5_2"), self.get_bias("conv5_2")
+            (self.para_dict["conv5_2_W"], gamma), self.para_dict["conv5_2_b"]  = self.get_conv_filter("conv5_2"), self.get_bias("conv5_2")
             self.gamma_var.append(gamma)
 
-            (self.conv5_3_W, gamma), self.conv5_3_b = self.get_conv_filter("conv5_3"), self.get_bias("conv5_3")
+            (self.para_dict["conv5_3_W"], gamma), self.para_dict["conv5_3_b"]  = self.get_conv_filter("conv5_3"), self.get_bias("conv5_3")
             self.gamma_var.append(gamma)
 
             # user specified fully connected layers
-            self.fc_1_W = tf.get_variable(name="fc_1_W", shape=(512, 512), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
-            self.fc_1_b = tf.get_variable(name="fc_1_b", shape=(512,), initializer=tf.ones_initializer(), dtype=tf.float32)
+            self.para_dict['fc_1_W'] = tf.get_variable(name="fc_1_W", shape=(512, 512), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
+            self.para_dict['fc_1_b'] = tf.get_variable(name="fc_1_b", shape=(512,), initializer=tf.ones_initializer(), dtype=tf.float32)
 
-            self.fc_2_W = tf.get_variable(name="fc_2_W", shape=(512, 10), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
-            self.fc_2_b = tf.get_variable(name="fc_2_b", shape=(10,), initializer=tf.ones_initializer(), dtype=tf.float32)
+            self.para_dict['fc_2_W'] = tf.get_variable(name="fc_2_W", shape=(512, 10), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
+            self.para_dict['fc_2_b'] = tf.get_variable(name="fc_2_b", shape=(10,), initializer=tf.ones_initializer(), dtype=tf.float32)
         
         if block_variational:
             if type(dp) != dict:
