@@ -190,7 +190,7 @@ class VGG16:
                 fc_1 = tf.nn.dropout(fc_1, keep_prob=0.5)
                 fc_1 = tf.nn.relu(fc_1)
                 
-                logits = tf.nn.bias_add(tf.matmul( fc_1, self.fc_2_W), self.fc_2_b)
+                logits = self.fc_layer(fc_1, 'fc_2')
                 prob = tf.nn.softmax(logits, name="prob")
                 
                 cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=self.y)
