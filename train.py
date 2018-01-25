@@ -195,12 +195,14 @@ def train(FLAG):
         C = None
         for k, v in sorted(dp.items()):
             if C is None:
-                H, W, C, O = para_dict[k+"_W"].shape
+                H, W, C, O = para_dict[k][0].shape
             else:
-                H, W, _, O = para_dict[k+"_W"].shape
-            para_dict[k+"_W"] = para_dict[k+"_W"][:, :, :C, :int(O*v)]
-            para_dict[k+"_gamma"] = para_dict[k+"_gamma"][:, :int(O*v)]
-            print("%s_W from (%s,%s,%s,%s) to %s" % (k, H, W, C, O, para_dict[k+"_W"].shape))
+                H, W, _, O = para_dict[k][0].shape
+            para_dict[k][0] = para_dict[k][0][:, :, :C, :int(O*v)]
+            para_dict[k][1] = para_dict[k][1][:int(O*v)]
+            para_dict[k+"_gamma"] = para_dict[k+"_gamma"][:int(O*v)]
+            
+            print("%s_W from (%s,%s,%s,%s) to %s" % (k, H, W, C, O, para_dict[k][0].shape))
             print("%s_gamma to %s" % (k, para_dict[k+"_gamma"].shape))
             C = int(O*v)
 
