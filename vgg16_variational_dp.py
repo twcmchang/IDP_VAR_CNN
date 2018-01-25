@@ -1,3 +1,4 @@
+# %load vgg16_variational_dp.py
 import os
 import time
 import numpy as np
@@ -114,17 +115,20 @@ class VGG16:
             # self.fc_2_b = tf.get_variable(name="fc_2_b", shape=(10,), initializer=tf.ones_initializer(), dtype=tf.float32)
 
             for k, v in sorted(dp.items()):
-                (conv_filter, self.para_dict[k+"_gamma"]), conv_bias = self.get_conv_filter(k), self.get_bias(k)
+                (conv_filter, gamma), conv_bias = self.get_conv_filter(k), self.get_bias(k)
                 self.para_dict[k] = [conv_filter, conv_bias]
+                self.para_dict[k+"_gamma"] = gamma
                 self.gamma_var.append(self.para_dict[k+"_gamma"])
 
             # user specified fully connected layers
-            self.para_dict['fc_1_W'] = tf.get_variable(name="fc_1_W", shape=(512, 512), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
-            self.para_dict['fc_1_b'] = tf.get_variable(name="fc_1_b", shape=(512,), initializer=tf.ones_initializer(), dtype=tf.float32)
-
-            self.para_dict['fc_2_W'] = tf.get_variable(name="fc_2_W", shape=(512, 10), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
-            self.para_dict['fc_2_b'] = tf.get_variable(name="fc_2_b", shape=(10,), initializer=tf.ones_initializer(), dtype=tf.float32)
-        
+            fc_W = tf.get_variable(name="fc_1_W", shape=(512, 512), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
+            fc_b = tf.get_variable(name="fc_1_b", shape=(512,), initializer=tf.ones_initializer(), dtype=tf.float32)
+            self.para_dict['fc_1'] = [fc_W, fc_b]
+            
+            fc_W = tf.get_variable(name="fc_2_W", shape=(512, 10), initializer=tf.truncated_normal_initializer(mean=0, stddev=0.1), dtype=tf.float32)
+            fc_b = tf.get_variable(name="fc_2_b", shape=(10,), initializer=tf.ones_initializer(), dtype=tf.float32)
+            self.para_dict['fc_2'] = [fc_W, fc_b]
+            
         if block_variational:
             if type(dp) != dict:
                 raise ValueError("when block_variational is True, dp must be a dictionary.")
