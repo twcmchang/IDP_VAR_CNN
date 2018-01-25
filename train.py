@@ -84,7 +84,7 @@ def train(FLAG):
         sess.run(tf.global_variables_initializer())
 
         # hyper parameters
-        learning_rate = 2e-5
+        learning_rate = 2e-4
         batch_size = 32
         alpha = 0.5
         early_stop_patience = 4
