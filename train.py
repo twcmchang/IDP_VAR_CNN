@@ -190,7 +190,13 @@ def train(FLAG):
                 print("Epoch %s (%s), %s sec >> obj loss: %.4f, task at %s: %.4f" % (epoch_counter, patience_counter, round(time.time()-stime,2), val_loss, cur_task, val_accu))
         saver.save(sess, checkpoint_path, global_step=epoch_counter)
 
-        np.save(os.path.join(FLAG.save_dir, "para_dict.npy"), sess.run([vgg16.para_dict]))
+        para_dict = sess.run(vgg16.para_dict)
+        for k, v in dp.items():
+            H, W, C, O = para_dict[k+"_W"].shape
+            para_dict[k+"_W"] = para_dict[k+"_W"][:,:,:,:int(O*v)]
+            print("%s_W from (%s,%s,%s,%s) to %s" % (k,H,W,C,O,para_dict[k+"_W"].shape))
+            
+        np.save(os.path.join(FLAG.save_dir, "para_dict.npy"), para_dict)
         writer.close()
 
 if __name__ == '__main__':
