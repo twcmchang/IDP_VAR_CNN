@@ -93,7 +93,7 @@ def train(FLAG):
         # optimizer
         # opt = tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9)
         opt = tf.train.AdamOptimizer(learning_rate=learning_rate)
-        
+
         # recorder
         epoch_counter = 0
 
@@ -193,7 +193,7 @@ def train(FLAG):
 
         para_dict = sess.run(vgg16.para_dict)
         C = None
-        for k, v in dp.items():
+        for k, v in sorted(dp.items()):
             if C is None:
                 H, W, C, O = para_dict[k+"_W"].shape
             else:
